@@ -1,0 +1,10 @@
+作业一：
+1、工程代码:sss-demo
+2、登陆拦截器实现：com.jin.demo.sss.login.LoginInterceptor#preHandle
+3、登陆功能实现：com.jin.demo.sss.controller.ResumeController#login
+4、用户名密码都是：admin
+5、redis地址修改：applicationContext.xml 第123行（测试使用redis服务端版本：5.0，客户端版本：jedis3.2.0）
+6、war包：sss-demo-redis-session.war
+7、sql脚本：与之前老师发的tb_resume表一致
+作业二：
+elastic-job原理.png

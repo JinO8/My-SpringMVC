@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,12 @@ public class ResumeController {
     @Autowired
     private ResumeService resumeService;
 
+    @Autowired
+    private Jedis jedis;
+
+    /**
+     * 登陆
+     */
     @RequestMapping("/resume/login")
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response, String username, String password){
         ModelAndView modelAndView = new ModelAndView();
@@ -31,6 +38,10 @@ public class ResumeController {
             user.setUsername(username);
             user.setPassword(password);
             request.getSession().setAttribute("user",user);
+            String sessionId = request.getSession().getId();
+            //登陆成功后，sessionId存放redis一个小时
+            jedis.setex(sessionId,3600,"admin:admin");
+            System.out.println("第一次登陆sessionId："+sessionId);
         }else {
             modelAndView.setViewName("/index.html");
         }

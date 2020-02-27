@@ -111,5 +111,21 @@
     <!--6、配置spring包扫描-->
     <context:component-scan base-package="com.jin.demo.sss"/>
 
+    <!--初始化连接池配置-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="8"/>
+        <property name="maxTotal" value="8"/>
+    </bean>
+
+    <!--配置 jedis 连接池-->
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
+        <constructor-arg name="host" value="192.168.23.128"/>
+        <constructor-arg name="port" value="6379"/>
+        <constructor-arg name="timeout" value="2000"/>
+    </bean>
+    <!--把 jedis 创建与销毁交给 spring 来管理-->
+    <bean id="jedis" factory-bean="jedisPool" factory-method="getResource" destroy-method="close"/>
+
 </beans> 
     
